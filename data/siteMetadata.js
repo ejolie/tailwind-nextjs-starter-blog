@@ -1,8 +1,8 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: "Marron's Devlog",
+  title: '마롱의 기록',
   author: '마롱',
-  headerTitle: "Marron's Devlog",
+  headerTitle: '마롱의 기록',
   description: '',
   language: 'ko-kr',
   theme: 'system', // system, dark or light
