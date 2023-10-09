@@ -3,7 +3,7 @@ const siteMetadata = {
   title: '마롱의 기록',
   author: '마롱',
   headerTitle: '마롱의 기록',
-  description: '',
+  description: '⌨️',
   language: 'ko-kr',
   theme: 'system', // system, dark or light
   siteUrl: 'https://marron.im',
