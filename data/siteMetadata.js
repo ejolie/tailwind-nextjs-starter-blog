@@ -9,7 +9,7 @@ const siteMetadata = {
   siteUrl: 'https://marron.im',
   siteRepo: 'https://github.com/ejolie/tailwind-nextjs-starter-blog',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '',
+  socialBanner: '/static/images/twitter-card.png',
   mastodon: '',
   email: 'ejolie.dev@gmail.com',
   github: 'https://github.com/ejolie',
