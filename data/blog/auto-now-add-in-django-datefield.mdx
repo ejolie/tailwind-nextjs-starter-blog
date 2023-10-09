@@ -1,12 +1,16 @@
 ---
-title: 'DateField(auto_now_add=True) 필드 값은 수정할 수 없다'
+title: 'auto_now_add=True 로 정의된 필드 값은 수정할 수 없다'
 date: '2022-07-30'
 tags: ['django']
 draft: false
 ---
 
-보통 장고를 사용할 때 생성일시(예: `created_at`) 필드를 정의할 때 `DateField(auto_now_add=True)`를 사용한다.
-그런데 이 필드 값을 원하는 다른 값으로 설정해서 저장하려고 했더니 예상했던 것처럼 변경이 되지 않는 문제가 발생했다.
+보통 장고에서 모델 인스턴스가 생성되는 시점의 시각을 저장하고 싶을 때 `auto_now_add=True` 옵션을 사용한다. 
+
+- `DateField(auto_now_add=True)`
+- `DateTimeField(auto_now_add=True)`
+
+그런데 특정 상황에서 `DateTimeField(auto_now_add=True)`로 정의된 생성일시 필드를 다른 값으로 수정하여 저장(`save()`)했더니 예상했던 것처럼 수정되지 않는 문제가 발생했다.
 
 공식문서를 살펴보니 다음과 같은 설명이 적혀 있었다.
 
