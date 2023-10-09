@@ -21,9 +21,13 @@ export default function Footer() {
           <div>{` • `}</div>
           <Link href="/">{siteMetadata.title}</Link>
         </div>
-        <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
+        <div className="mb-8 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
           <Link href="https://github.com/timlrx/tailwind-nextjs-starter-blog">
             Tailwind Nextjs Theme
+          </Link>
+          <div>{` • `}</div>
+          <Link href="https://www.freepik.com/icon/chestnut_2153101#fromView=search&term=chestnut&page=1&position=35&track=ais&track=ais">
+            Icon by Freepik
           </Link>
         </div>
       </div>
