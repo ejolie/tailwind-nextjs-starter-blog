@@ -1,0 +1,22 @@
+---
+title: 'QuerySet.update() 메서드는 수정된 행의 수를 반환하지 않는다'
+date: '2022-07-28'
+tags: ['django']
+draft: false
+---
+
+데이터 수정 작업을 한 뒤에, 수정 작업이 완료된 행의 수가 필요할 때가 있다. 
+
+장고에서는 보통 `update()` 메서드를 사용해서 수정 작업을 하기 때문에 이 메서드의 반환값을 수정된 행의 수로 생각하고 사용할 수도 있다.
+하지만 이는 잘못된 방법이다.
+
+## [`update(**kwargs)`](https://docs.djangoproject.com/en/4.1/ref/models/querysets/#update)
+
+> Performs an SQL update query for the specified fields, and <u>returns the number of rows matched (which may not be equal to the number of rows updated if some rows already have the new value).</u>
+
+> 명시한 필드에 대해 SQL UPDATE 쿼리를 수행하고 <u>일치하는 행 수를 반환합니다(일부 행에 이미 새 값이 있는 경우 업데이트된 행 수와 같지 않을 수 있음).</u>
+
+공식문서를 읽어보면 `QuerySet.update()`는 변경된 행의 수가 아닌 **매치된 행의 수**를 반환한다. 
+만약 이미 수정하려고 하는 값을 갖고 있는 행이 존재한다면 매치된 행의 수는 수정된 행의 수와 다를 수 있다. 
+
+이건 정말 놓치기 쉬운 사실이므로 주의해야 한다.

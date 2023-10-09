@@ -1,0 +1,23 @@
+---
+title: 'DateField(auto_now_add=True) 필드 값은 수정할 수 없다'
+date: '2022-07-30'
+tags: ['django']
+draft: false
+---
+
+보통 장고를 사용할 때 생성일시(예: `created_at`) 필드를 정의할 때 `DateField(auto_now_add=True)`를 사용한다.
+그런데 이 필드 값을 원하는 다른 값으로 설정해서 저장하려고 했더니 예상했던 것처럼 변경이 되지 않는 문제가 발생했다.
+
+공식문서를 살펴보니 다음과 같은 설명이 적혀 있었다.
+
+### [`DateField.auto_now_add`](https://docs.djangoproject.com/en/3.2/ref/models/fields/#django.db.models.DateField.auto_now_add)
+
+> Automatically set the field to now when the object is first created. Useful for creation of timestamps. <u>Note that the current date is always used; it’s not just a default value that you can override. So even if you set a value for this field when creating the object, it will be ignored.</u> If you want to be able to modify this field, set the following instead of auto_now_add=True:
+> - For DateField: default=date.today - from datetime.date.today()
+> - For DateTimeField: default=timezone.now - from django.utils.timezone.now()
+
+> 객체가 처음 생성될 때 필드의 값을 현재 시각으로 자동으로 설정합니다. 타임스탬프 생성에 유용합니다. <u>항상 현재 날짜가 사용됩니다. 이는 단순히 재정의(override)할 수 있는 기본값이 아닙니다. 따라서 객체를 생성할 때 이 필드에 값을 설정하더라도 무시됩니다.</u> 이 필드의 값을 수정하려면 auto_now_add=True 대신 다음 옵션을 사용하세요.
+> - DateField 사용 시: default=date.today - from datetime.date.today()
+> - DateTimeField 사용 시: default=timezone.now - from django.utils.timezone.now()
+
+따라서 값을 수정하려는 필드에서 `auto_now_add=True` 옵션을 제거하고 공식문서의 가이드처럼 `default` 옵션을 사용하는 방식으로 수정한 뒤, 해당 필드 값을 원하는 값으로 수정할 수 있었다.
