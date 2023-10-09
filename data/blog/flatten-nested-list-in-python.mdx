@@ -1,0 +1,143 @@
+---
+title: '파이썬에서 중첩 리스트를 단일 리스트로 flatten 하는 방법'
+date: '2023-05-17'
+draft: false
+tags: ['python']
+---
+
+파이썬에서 중첩 리스트(depth 2) 안에 있는 리스트를 언패킹(unpacking)해서 단일 리스트(depth 1)로 만들고 싶었다.
+직관적으로 아래와 같은 시도를 해봤는데 원하는 대로 되지 않고 에러가 발생했다.
+
+### 시도 1. `*`
+
+파이썬에서 이터러블 객체를 언패킹 할 때 사용하는 `*`를 사용해보았다. 이 방법은 정말 될 것 같았는데 안됐다!
+
+```python
+# 작성한 코드
+nested_items = [[1,2,3], [4,5,6], [7], [8,9]]
+flattened_items = [*items for items in nested_items]
+```
+
+```python
+# 에러 메시지
+File "<stdin>", line 1
+    flattened_items = [*items for items in nested_items]
+                       ^
+SyntaxError: iterable unpacking cannot be used in comprehension
+```
+
+### 시도 2. `...`
+
+파이썬에서 `...`(ellipsis)의 용례를 완벽히 알지는 못하는 상태였지만 자바스크립트의 문법이 생각나서 한 번 시도해보았다.
+
+```python
+# 작성한 코드
+nested_items = [[1,2,3], [4,5,6], [7], [8,9]]
+flattened_items = [...items for items in nested_items]
+```
+
+```python
+# 에러 메시지
+File "<stdin>", line 1
+    flattened_items = [...items for items in nested_items]
+                          ^
+SyntaxError: invalid syntax
+```
+
+## 시도 1, 시도 2가 안된 이유
+
+### 시도 1. `*`
+
+검색해보니 단순히 <u>리스트 컴프리헨션 안에서는 `*` 언패킹을 지원하지 않는</u> 것 같았다. ([참고](https://discuss.python.org/t/why-cant-iterable-unpacking-be-used-in-comprehension/15622/9))
+
+리스트 컴프리헨션이 아닌 아래 코드는 잘 동작한다.
+
+```python
+>>> a = [1, 2, 3]
+>>> b = [4, 5, 6]
+>>> [*a, *b]
+[1, 2, 3, 4, 5, 6]
+```
+
+### 시도 2. `...`
+
+파이썬에서 ellipsis의 용례는 아래와 같다.
+
+#### 1. 구현되지 않은 함수 또는 클래스에 `pass` 처럼 사용
+
+```python
+def write_an_article():
+  ...
+
+class Foo:
+	...
+```
+
+#### 2. 타입 힌팅에서 사용
+
+```python
+def partial(func: Callable[..., str], *args) -> Callable[..., str]:
+```
+
+```python
+# FastAPI
+async def something(q: str = Query(..., min_length=10)):
+```
+
+#### 3. numpy indexing
+
+
+## 중첩 리스트를 flatten 하는 방법
+
+그렇다면 이제 파이썬에서 중첩 리스트를 flatten 할 수 있는 진짜 방법을 알아보자.
+
+### 1. 리스트 컴프리헨션 + 이중 for 문
+
+```python
+nested_items = [[1,2,3], [4,5,6], [7], [8,9]]
+flattened_items = [num for items in nested_items for num in items]
+```
+
+### 2. `itertools.chain()`, `itertools.chain.from_iterable()`
+
+
+```python
+from itertools import chain
+
+nested_items = [[1,2,3], [4,5,6], [7], [8,9]]
+flattened_items = list(chain(*items))
+```
+
+`itertools.chain.from_iterable()`을 사용하면 리스트를 언패킹하지 않아도 된다.
+
+```python
+from itertools import chain
+
+nested_items = [[1,2,3], [4,5,6], [7], [8,9]]
+flattened_items = list(chain.from_iterable(items))
+```
+
+### 3. `sum()`
+
+신기한데 직관적이지 않아서 많이 쓸 것 같지는 않다.
+
+```python
+nested_items = [[1,2,3], [4,5,6], [7], [8,9]]
+flattened_items = sum(nested_items, [])
+```
+
+### 4. `functools.reduce()`
+
+`sum()`과 마찬가지로 직관적이지 않아서 많이 쓸 것 같지는 않다.
+
+```python
+from functools import reduce
+
+nested_items = [[1,2,3], [4,5,6], [7], [8,9]]
+flattened_items = reduce(lambda x, y: x + y, nested_items)
+```
+
+## 참고자료
+- 웹 문서
+  - https://stackoverflow.com/questions/952914/how-do-i-make-a-flat-list-out-of-a-list-of-lists
+  - [3 Uses of the Ellipsis in Python](https://medium.com/techtofreedom/3-uses-of-the-ellipsis-in-python-25795aac723d)

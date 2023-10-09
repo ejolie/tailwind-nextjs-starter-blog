@@ -19,62 +19,53 @@ tags: ['html', 'http']
 
 
 
-# 1. data URI 스킴이란?
+## 1. data URI 스킴이란?
 
 data URI 스킴이 무엇인지 알아보기 전에 우선 URI, URL, 스킴의 개념을 정리해보자.
 
-## URI, URL, 스킴
+### URI, URL, 스킴
 
-### **URI(Uniform Resource Identifier): 리소스 식별자**
+#### **URI(Uniform Resource Identifier): 리소스 식별자**
+URI는 두 가지 부분집합인 URL과 URN으로 구성된다.
 
-- 두 가지 부분집합인 URL과 URN으로 구성됨
-  - **URN(Uniform Resource Name): 리소스 이름**
-  
-  리소스가 어디에 있는지와 상관없이 그 이름만으로 리소스를 식별
+- URN(Uniform Resource Name): 리소스 이름, 리소스가 어디에 있는지와 상관없이 그 이름만으로 리소스를 식별
+- URL(Uniform Resource Locator): 리소스 위치, 리소스가 어디에 있는지를 설명해서 리소스를 식별
 
-  - **URL(Uniform Resource Locator): 리소스 위치**
-   
-  리소스가 어디에 있는지를 설명해서 리소스를 식별
-
-- URN만으로 실제 리소스를 찾을 방법이 보편적이지 않아 <u>보통 URI를 URL과 같은 의미로 사용</u>한다.
+URN만으로 실제 리소스를 찾을 방법이 보편적이지 않아 <u>보통 URI를 URL과 같은 의미로 사용</u>한다.
 
 
+#### URL(Uniform Resource Locator): 리소스 위치
 
-### URL(Uniform Resource Locator)
+URL은 위에서 말한 것 처럼 브라우저가 정보를 찾는데 필요한 리소스의 위치를 알려준다.
+여기서 리소스란 웹에서 사용되고 있으며 식별할 수 있는 모든 자원을 의미한다.
 
-- 브라우저가 정보를 찾는데 필요한 *리소스*의 위치
+URL의 문법은 아래와 같다.
 
-  cf. 리소스: 웹에서 사용되고 있으며 식별할 수 있는 모든 자원
+- <u>리소스는 각자 다른 스킴(예: HTTP, FTP, SMTP)을 통해 접근할 수 있으며, URL 문법은 스킴에 따라 다르다.</u>
 
-- URL 문법
+- URL 스킴의 문법은 일반적으로 9개의 컴포넌트로 구성된다. 9개 컴포넌트를 모두 가진 URL은 거의 없으며 URL의 가장 중요한 세 가지 컴포넌트는 스킴, 호스트, 경로(`<스킴>://<호스트>/<경로>`)다.
 
-  - <u>리소스는 각자 다른 스킴(예: HTTP, FTP, SMTP)을 통해 접근할 수 있으며, URL 문법은 스킴에 따라 다르다.</u>
-
-  - URL 스킴의 문법은 일반적으로 9개의 컴포넌트로 구성된다. 9개 컴포넌트를 모두 가진 URL은 거의 없으며 URL의 가장 중요한 세 가지 컴포넌트는 스킴, 호스트, 경로(`<스킴>://<호스트>/<경로>`)다.
-
-    ````
-    <스킴>://<사용자 이름>:<비밀번호>@<호스트>:<포트>/<경로>;<파라미터>?<질의>#<프래그먼트>
-    ````
+````
+<스킴>://<사용자 이름>:<비밀번호>@<호스트>:<포트>/<경로>;<파라미터>?<질의>#<프래그먼트>
+````
 
 
+#### 스킴(Scheme)
 
-### 스킴(Scheme)
-
-- <u>리소스를 가져오려면 어떤 프로토콜을 사용하여 서버에 접근해야 하는지</u>를 알려준다.
-- 예시
-  - http: `http://www.joes-hardware.com/seasonal/index-fall.html`
-  - ftp: `ftp://ftp.lots-o-books.com/pub/complete-price-lists.xls` 
-  - javascript: `javascript:alert("hello"!);`
+스킴은 리소스를 가져오려면 어떤 프로토콜을 사용하여 서버에 접근해야 하는지를 알려준다.
+스킴의 예시로는 http, ftp, mailto, javascript 등이 있다.
+- http: `http://www.joes-hardware.com/seasonal/index-fall.html`
+- ftp: `ftp://ftp.lots-o-books.com/pub/complete-price-lists.xls` 
+- javascript: `javascript:alert("hello"!);`
 
 
 
-## data URI 스킴
+### data URI 스킴
 
-- 보통 작고 변하지 않는 데이터를 삽입하고 싶을 때, <u>데이터를 참조하는 링크를 넣는 대신 데이터를 '바로' 넣는데 사용</u>하는 스킴이다.
+그러면 이제 data URI 스킴에 대해 알아보자.
+보통 작고 변하지 않는 데이터를 삽입하고 싶을 때, <u>데이터를 참조하는 링크를 넣는 대신 데이터를 '바로' 넣는데 사용</u>하는 스킴이다.
 
-
-
-### 문법
+#### 문법
 
 ```
 data:[<mediatype>][;base64],<data>
@@ -89,7 +80,7 @@ data:[<mediatype>][;base64],<data>
 
 
 
-### 예시
+#### 예시
 
 - "A brief note"라는 `text/plain` 타입의 문자열
 
@@ -113,22 +104,23 @@ data:[<mediatype>][;base64],<data>
 
 
 
-# 2. Base64 인코딩이란?
+## 2. Base64 인코딩이란?
 
-- Base64 인코딩은 이진 데이터를 문자열로(binary to text) 인코딩하는 알고리즘 중 하나이다. 6개의 비트(2^6 = 64개의 문자)를 사용하기 때문에 Base64라고 한다.
+Base64 인코딩은 이진 데이터를 문자열로(binary to text) 인코딩하는 알고리즘 중 하나이다.
+6개의 비트(2^6 = 64개의 문자)를 사용하기 때문에 Base64라고 한다.
 
 ![Base64 알파벳](/static/images/base64-encoded-image-in-browser/base64-alphabet.png)
 
 
 
-### Base64는 이진 데이터를 안전하게 만들어준다.
+#### Base64는 이진 데이터를 안전하게 만들어준다.
 
 - 사용자의 입력이나 이진 데이터를 안전한 형식으로 만들어준다. HTTP 파서를 망가뜨릴 수 있는 콜론(`:`), 줄 바꿈, 이진값이 포함되지 않은 데이터가 HTTP 헤더 필드 값에 담겨 전송될 수 있게 해준다.
 - MIME 멀티미디어 전자 메일 표준의 일부로 개발되었다. MIME은 Base64 인코딩을 이용해서 오래된 이메일 게이트웨이 사이에서도 복잡한 텍스트나 이진 데이터를 전송할 수 있었다.
 
 
 
-### Base64는 8비트를 6비트로 표현한다.
+#### Base64는 8비트를 6비트로 표현한다.
 
 - 8비트의 연속으로 이루어진 이진 데이터를 6비트씩 쪼갠 뒤, 각 6비트 조각을 64개의 문자 중 하나에 할당한다.
 
@@ -138,77 +130,77 @@ data:[<mediatype>][;base64],<data>
 
 
 
-### Base64 패딩
+#### Base64 패딩
 
 - 8비트 바이트들이 6비트 조각으로 고르게 나뉘지 않는다면 그 길이를 24비트(6비트와 8비트의 최소공배수)로 만들고 남은 공간은 0비트로 채운다.
 - 이렇게 0비트로 채워진(패딩된) 문자열을 인코딩할 때, 완전히 패딩된 6비트의 그룹은 특별한 문자인  `=` 로 표현한다.
 
 
 
-# 3. Spring Boot를 이용한 데모 프로젝트
+## 3. Spring Boot를 이용한 데모 프로젝트
 
 data URI와 Base64 인코딩을 이용해 이미지를 보여주는 Spring Boot 데모 프로젝트를 만들었다. 전체 코드는 [GitHub 저장소](https://github.com/ejolie/spring-base64-example)를 참고하면 된다.
 
-- Base64 인코딩은 자바에서 제공하는 `java.util.Base64` 를 사용해 구현했다.
+Base64 인코딩은 자바에서 제공하는 `java.util.Base64` 를 사용해 구현했다.
 
-  ```java
-  // FileUtil.java
-  import java.util.Base64;
-  
-  public static String convertImageToBase64(byte[] bytes) {
-      return Base64.getEncoder().encodeToString(bytes);
-  }
-  ```
+```java
+// FileUtil.java
+import java.util.Base64;
 
-- data URI 스킴 `<mediatype>` 자리에 MIME 타입을 넣기 위해 원본 파일명에서 MIME 타입 정보를 알아냈다. Java에서 MIME 타입을 알아내는 방법은 [이 블로그](https://www.baeldung.com/java-file-mime-type)를 참고했다.
+public static String convertImageToBase64(byte[] bytes) {
+    return Base64.getEncoder().encodeToString(bytes);
+}
+```
 
-  ```java
-  // FileUtil.java
-  import java.net.FileNameMap;
-  import java.net.URLConnection;
-  
-  public static String getMimeType(String filename) {
-      FileNameMap fileNameMap = URLConnection.getFileNameMap();
-      return fileNameMap.getContentTypeFor(filename);
-  }
-  ```
+data URI 스킴 `<mediatype>` 자리에 MIME 타입을 넣기 위해 원본 파일명에서 MIME 타입 정보를 알아냈다. Java에서 MIME 타입을 알아내는 방법은 [이 블로그](https://www.baeldung.com/java-file-mime-type)를 참고했다.
 
-- DTO에 인코딩된 문자열, MIME 타입, 원본 파일명 세 가지 정보를 담아 반환해주었다.
+```java
+// FileUtil.java
+import java.net.FileNameMap;
+import java.net.URLConnection;
 
-  ```java
-  // Base64ResponseDto.java
-  public class Base64ResponseDto {
-      private String base64Str;
-      private String mimeType;
-      private String filename;
-  }
-  ```
+public static String getMimeType(String filename) {
+    FileNameMap fileNameMap = URLConnection.getFileNameMap();
+    return fileNameMap.getContentTypeFor(filename);
+}
+```
 
-- 클라이언트 쪽에서는 세 가지 정보를 이용해 `<img>` 태그 속성에 값을 적절히 채워준다.
+DTO에 인코딩된 문자열, MIME 타입, 원본 파일명 세 가지 정보를 담아 반환해주었다.
 
-  ```java
-  // index.js
-  $(function() {
-      $("#submitBtn").on("click", function() {
-          $.ajax({
-              url: "/image/base64",
-              method: "GET",
-              data: {
-                  imagePath: $("input[name=imagePath]").val()
-              }
-          }).done(function(data, textStatus, jqXHR) {
-              const { base64Str, mimeType, filename } = data;
-              const myImage = $(".myImage");
-              myImage.prop("src", `data:${mimeType};base64,${base64Str}`);
-              myImage.prop("alt", filename);
-          }).fail(function(jqXHR, textStatus, errorThrown) {
-              alert(jqXHR.responseJSON.message);
-          });
-      });
-  })
-  ```
+```java
+// Base64ResponseDto.java
+public class Base64ResponseDto {
+    private String base64Str;
+    private String mimeType;
+    private String filename;
+}
+```
 
-# (+) 크롬 개발자 도구에서 이미지 파일의 data URI 얻는 방법
+클라이언트 쪽에서는 세 가지 정보를 이용해 `<img>` 태그 속성에 값을 적절히 채워준다.
+
+```java
+// index.js
+$(function() {
+    $("#submitBtn").on("click", function() {
+        $.ajax({
+            url: "/image/base64",
+            method: "GET",
+            data: {
+                imagePath: $("input[name=imagePath]").val()
+            }
+        }).done(function(data, textStatus, jqXHR) {
+            const { base64Str, mimeType, filename } = data;
+            const myImage = $(".myImage");
+            myImage.prop("src", `data:${mimeType};base64,${base64Str}`);
+            myImage.prop("alt", filename);
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseJSON.message);
+        });
+    });
+})
+```
+
+## (+) 크롬 개발자 도구에서 이미지 파일의 data URI 얻는 방법
 
 `개발자 도구 > Sources 탭 > 이미지 파일 선택 > 오른쪽 마우스 클릭 > Copy image as Data URI` 를 선택하면 해당 이미지의 data URI를 얻을 수 있다.
 
@@ -219,7 +211,7 @@ data URI와 Base64 인코딩을 이용해 이미지를 보여주는 Spring Boot 
 ![크롬 주소창으로 이미지 파일 확인](/static/images/base64-encoded-image-in-browser/chrome-search.png)
 
 
-# 참고자료
+## 참고자료
 
 - 웹 문서
   - https://developer.mozilla.org/ko/docs/Web/HTTP/Basics_of_HTTP/Data_URIs

@@ -7,7 +7,7 @@ tags: ['web architecture', 'java']
 
 자바로 웹 개발을 할 때 자주 헷갈리는 개념인 웹 서버, 서블릿 컨테이너, 웹 애플리케이션 서버에 대해 간단히 정리해 보았다.
 
-# 웹 서버(Web Server)
+## 웹 서버(Web Server)
 
 - 웹 서버는 **HTTP 프로토콜을 통해 클라이언트(브라우저)의 요청을 받아 응답으로 HTML 문서와 같은 정적 콘텐츠를 제공**해주는 소프트웨어 또는 하드웨어를 말한다.
 
@@ -18,7 +18,7 @@ tags: ['web architecture', 'java']
 
 
 
-# 서블릿 컨테이너(Servlet Container) = 웹 컨테이너(Web Container)
+## 서블릿 컨테이너(Servlet Container) = 웹 컨테이너(Web Container)
 
 - 서블릿 컨테이너는 **JSP/Servlet과 같은 서버 사이드 기술을 이용해 동적 콘텐츠를 제공**해주기 위한 웹 서버의 구성 요소다.
 
@@ -33,7 +33,7 @@ tags: ['web architecture', 'java']
 
 
 
-## 서블릿(Servlet)
+### 서블릿(Servlet)
 
 - 서블릿은 **자바로 웹 서비스를 제공하는 서버측 프로그램(서버에서 실행되는 자바 클래스)**이다.
 - 클라이언트의 요청에 따라 동적으로 웹 페이지를 제공한다.
@@ -45,7 +45,7 @@ tags: ['web architecture', 'java']
 
 
 
-## JSP(JavaServer Pages)
+### JSP(JavaServer Pages)
 
 - JSP는 HTML 문서 안에 자바 코드를 넣어 동적 웹 페이지를 만드는 기술이다.
 - JSP에는 HTML, CSS, JavaScript 뿐만 아니라 다른 JSP 구성 요소들이 포함된다.
@@ -56,7 +56,7 @@ tags: ['web architecture', 'java']
 
 
 
-# 웹 애플리케이션 서버(WAS, Web Application Server)
+## 웹 애플리케이션 서버(WAS, Web Application Server)
 
 - 좁은 의미
   - 웹 애플리케이션 서버는 **Java EE의 모든 명세를 구현한 자바 구현체**를 말한다.
@@ -71,7 +71,7 @@ tags: ['web architecture', 'java']
 
 
 
-## Apache Tomcat
+### Apache Tomcat
 
 **과거에는 Java EE의 일부만 지원하는 Tomcat을 서블릿 컨테이너 또는 웹 서버로 분류했다.** 하지만 최근에 EJB의 대안으로 Spring과 같은 경량 프레임워크를 사용하게 되면서 classpath에 필요한 라이브러리의 jar 파일을 추가하는 것만으로도 웹 애플리케이션 서버 대신 서블릿 컨테이너를 사용할 수 있게 되었고 그래서 **넓은 의미로 Tomcat을 웹 애플리케이션 서버라고 한다.**
 
@@ -79,7 +79,7 @@ tags: ['web architecture', 'java']
 
 
 
-## 웹 서비스 구성: WEB-WAS?
+### 웹 서비스 구성: WEB-WAS?
 
 과거에는 웹 소스 내 각종 이미지, CSS, JavaScript 등 정적 콘텐츠를 처리하기 위해 WEB-WAS를 분리 구성하는 경우가 많았다고 한다. **즉, 정적 콘텐츠 서빙을 위해 웹 서버(예: Apache HTTP Server)를, 동적 콘텐츠 생성을 위해 웹 애플리케이션 서버(예: Apache Tomcat)를 사용하는 것이다.** 이렇게 하면 웹 서버가 정적 콘텐츠 처리 역할을 담당하게 되어 Tomcat의 처리 부하가 줄어들게 된다.
 
@@ -87,7 +87,7 @@ tags: ['web architecture', 'java']
 
 
 
-# 참고자료
+## 참고자료
 - 웹 문서
   - https://javajee.com/web-server-web-container-and-application-server
   - https://ducmanhphan.github.io/2020-04-01-The-difference-between-web-server-web-container-application-server/
