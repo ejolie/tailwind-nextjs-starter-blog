@@ -6,10 +6,10 @@ const siteMetadata = {
   description: '',
   language: 'ko-kr',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://marron.vercel.app',
+  siteUrl: 'https://marron.im',
   siteRepo: 'https://github.com/ejolie/tailwind-nextjs-starter-blog',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '',
   mastodon: '',
   email: 'ejolie.dev@gmail.com',
   github: 'https://github.com/ejolie',
@@ -22,10 +22,10 @@ const siteMetadata = {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
     // supports Plausible, Simple Analytics, Umami, Posthog or Google Analytics.
-    umamiAnalytics: {
-      // We use an env variable for this site to avoid other users cloning our analytics ID
-      umamiWebsiteId: process.env.NEXT_UMAMI_ID, // e.g. 123e4567-e89b-12d3-a456-426614174000
-    },
+    // umamiAnalytics: {
+    //   // We use an env variable for this site to avoid other users cloning our analytics ID
+    //   umamiWebsiteId: process.env.NEXT_UMAMI_ID, // e.g. 123e4567-e89b-12d3-a456-426614174000
+    // },
     // plausibleAnalytics: {
     //   plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
     // },
@@ -33,9 +33,9 @@ const siteMetadata = {
     // posthogAnalytics: {
     //   posthogProjectApiKey: '', // e.g. 123e4567-e89b-12d3-a456-426614174000
     // },
-    // googleAnalytics: {
-    //   googleAnalyticsId: '', // e.g. G-XXXXXXX
-    // },
+    googleAnalytics: {
+      googleAnalyticsId: 'G-9Z8XESQBTV', // e.g. G-XXXXXXX
+    },
   },
   newsletter: {
     // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
