@@ -1,0 +1,62 @@
+---
+title: 'Supabase 무료 플랜 사용 시 일시 정지되는 문제 임시 조치하기'
+date: '2023-10-16'
+tags: ['supabase', 'github action']
+draft: false
+summary: DB가 잠들지 않도록 주기적으로 요청을 보내는 깃헙 액션을 만들어 보자
+---
+
+## Supabase
+
+> Supabase is an open source Firebase alternative.
+> Start your project with a Postgres database, Authentication, instant APIs, Edge Functions, Realtime subscriptions, Storage, and Vector embeddings.
+
+[Supabase](https://supabase.com/)는 Firebase를 대체할 수 있는 오픈 소스 서비스다.
+Postgres 데이터베이스, 사용자 인증, Edge Function, 스토리지 등의 기능을 제공한다.
+
+나는 사이드 프로젝트에서 Supabase 무료 플랜을 활용해 Postgres DB를 구축했었는데 어느날 Supabase에서 아래 내용의 메일이 왔다.
+
+![일시 정지 안내 메일](/static/images/prevent-supabase-pause/email.png)
+
+무료 플랜 사용 시 일주일 이상 사용이 없으면 프로젝트가 일시 정지된다는 내용이었다. 
+다행히 데이터는 그대로 유지되며 대시보드에 접속해서 언제든지 일시 정지 상태를 해제할 수 있다고 적혀 있었다.
+
+나는 무료 플랜의 일시 정지 정책에 관해 잘 알지 못하고 사용했던 터라 당황스러웠다.
+공식 문서를 찾아보니 이와 관련된 내용이 적혀 있었다.
+
+> https://supabase.com/docs/guides/platform/going-into-prod#availability
+> 
+> If your application is on the free plan and <u>is not expected to be queried at least once every 7 days, then it may be paused by Supabase to save on server resources.</u>
+> - You can restore paused projects from the Supabase dashboard.
+> - Upgrade to Pro to guarantee that your project will not be paused for inactivity.
+
+![가격 정책](/static/images/prevent-supabase-pause/pricing.png)
+
+Supabase의 플랜을 Pro로 변경하거나 무료 플랜임에도 일시 정지 정책이 없는 다른 서비스를 사용하면 좋겠지만 우선은 DB에 한동안 요청이 없을 때도 일시 정지되지 않도록 임시 조치가 필요했다.
+
+현재 코드베이스가 GitHub에 있기 때문에 간단한 깃헙 액션을 작성해 해결하려고 했다.
+7일이 지나기 전에 서버로 요청을 보내 DB에 쿼리를 하도록 코드를 작성했다.
+
+## 깃헙 액션 작성하기
+
+```yml
+# .github/workflows/wake_up.yml
+name: Wake up periodically
+on:
+  schedule:
+    - cron: "0 0 */5 * *"  # 매 5일마다 실행, 자정에 실행
+  workflow_dispatch:  # 수동 실행용
+jobs:
+  send_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send request
+        run: |
+          curl --request GET --url https://supabase-db를-사용하는-서비스-api-엔드포인트
+```
+
+`https://supabase-db를-사용하는-서비스-api-엔드포인트` 부분에는 DB를 사용하는 서비스 API 엔드포인트를 알맞게 작성하면 된다.
+
+사실 Supabase에서는 DB에 직접 CRUD를 할 수 있는 [REST API](https://supabase.com/docs/guides/api)를 제공하기 때문에 Supabase API로 요청을 보내도 된다.
+나는 서비스 API로 요청을 보내도 문제되지는 않을 것 같아서 단순하게 위와 같이 처리했다.
